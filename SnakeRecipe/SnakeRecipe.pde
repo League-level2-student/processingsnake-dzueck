@@ -1,4 +1,4 @@
-
+ArrayList<Segment> body = new ArrayList();
 // 1. Follow the recipe instructions inside the Segment class.
 
 // The Segment class will be used to represent each part of the moving snake.
@@ -78,6 +78,7 @@ void draw() {
   drawSnake();
   move();
   collision();
+  System.out.println(food);
 }
 
 
@@ -199,8 +200,8 @@ void setFood(){
  
  **/
 
-//  1. Create and initialize an ArrayList of Segments. (This will be your snake tail!)
-ArrayList<Segment> body;
+//  1. Create and initia nlize an ArrayList of Segments. (This will be your snake tail!)
+
 
 // 2. Complete the missing parts of the manageTail method below and call it in the draw method.
 
@@ -210,7 +211,10 @@ void manageTail() {
   drawTail();
   checkTailCollision();
   // Add a new Segment to your ArrayList that has the same X and Y as the head of your snake.
-  body.add(new Segment(head.getX(), head.getY()));
+ 
+
+  Segment segement = new Segment(head.getX(), head.getY());
+  body.add(segement);
   // To keep your tail the right length:
   // while the tail size is greater than the number of food pieces eaten, remove the first Segment in your tail.
   while(body.size() > food){
@@ -221,13 +225,16 @@ void manageTail() {
 
 void drawTail() {
     // Draw a 10 by 10 rectangle for each Segment in your snake ArrayList.
-    if(food > 0){
-       for(int i = body.size()-1; i > 1; i--){
+    if(food > 1){
+      body.get(0).setX(head.getX());
+       body.get(0).setY(head.getY());
+       for(int i = body.size() - 1; i > 1; i--){
            body.get(i).setX(body.get(i-1).getX());
            body.get(i).setY(body.get(i-1).getY());
+           fill(0, 173, 29);
+            rect(body.get(i).getX()-5 * i, body.get(i).getY()-5, 10, 10);
        }
-       body.get(0).setX(head.getX());
-       body.get(0).setY(head.getY());
+       
     }
 }
 
@@ -241,10 +248,13 @@ void checkTailCollision() {
   // reset your food variable
 
   //Call this method at the beginning of your manageTail method.
-  for(int i = 0; i < body.size(); i++){
-           if(Math.abs(head.getX()-body.get(i).getX()) <= 10 && Math.abs(head.getY()-body.get(i).getY()) <= 10){
-               food = 0;
-           }
+  if(food > 1){
+    for(int i = 1; i < body.size(); i++){
+             if(Math.abs(head.getX()-body.get(i).getX()) <= 8 && Math.abs(head.getY()-body.get(i).getY()) <= 8){
+                 food = 0;
+             }
+    }
+    
   }
   
 }
